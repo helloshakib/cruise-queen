@@ -31,7 +31,7 @@
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book./p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
 
 
@@ -58,20 +58,20 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="firstClassSeatQuantity" class="inp-style inp-width" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <p><span id="firstClassSeatIncrease" class="single-plus-btn">+</span> <span id="firstClassSeatDecrease" class="single-minus-btn">-</span></p>
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="economySeatQuantity" class="inp-style inp-width" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                    <p> <span id="economySeatIncrease" class="single-plus-btn">+</span> <span id="economySeatDecrease" class="single-minus-btn">-</span> </p>
                 </div>
             </div>
             <div class="calculations">
@@ -80,7 +80,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="sub-total">$00</p>
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="tax">$50</p>
                     </div>
                 </div>
                 <hr>
@@ -98,15 +98,87 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="grand-total">$550</p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="bookBtn" class="btn-style">Book Now</button>
         </div>
     </main>
 
-    <!--Thank You-->
+    <!-- ================= JS code start ============== -->
+    <script>
+        // first class plus button 
+        document.getElementById('firstClassSeatIncrease').addEventListener('click', function(){
+            const firstClassSeatQuantity = document.getElementById('firstClassSeatQuantity');
+            const firstClassSeatQuantityNumber = parseInt(firstClassSeatQuantity.value);
+            const firstClassSeatNewQuantity = firstClassSeatQuantityNumber + 1;
+            firstClassSeatQuantity.value = firstClassSeatNewQuantity;
+
+            const newSubTotal = firstClassSeatNewQuantity * 150;
+            document.getElementById('sub-total').innerText = '$' + newSubTotal;
+            inputFirstClassAndEconomy();
+        })
+
+        // first class minus button
+        document.getElementById('firstClassSeatDecrease').addEventListener('click', function(){
+            const firstClassSeatQuantity = document.getElementById('firstClassSeatQuantity');
+            const firstClassSeatQuantityNumber = parseInt(firstClassSeatQuantity.value);
+            let firstClassSeatNewQuantity =  firstClassSeatQuantityNumber;
+            if(firstClassSeatNewQuantity>0){
+                firstClassSeatNewQuantity = firstClassSeatQuantityNumber - 1;
+            }
+            firstClassSeatQuantity.value = firstClassSeatNewQuantity;
+
+            const newSubTotal = firstClassSeatNewQuantity * 150;
+            document.getElementById('sub-total').innerText = '$' + newSubTotal;
+            inputFirstClassAndEconomy();
+        })
+
+        //============ economy class ===============
+
+        // economy class plus button 
+        document.getElementById('economySeatIncrease').addEventListener('click', function(){
+            const economySeatQuantity = document.getElementById('economySeatQuantity');
+            const economySeatQuantityNumber = parseInt(economySeatQuantity.value);
+            const economySeatNewQuantity = economySeatQuantityNumber + 1;
+            economySeatQuantity.value = economySeatNewQuantity;
+
+            const newSubTotal = economySeatNewQuantity * 150;
+            document.getElementById('sub-total').innerText = '$' + newSubTotal;
+            inputFirstClassAndEconomy();
+        })
+
+        // business class minus button
+        document.getElementById('economySeatDecrease').addEventListener('click', function(){
+            const economySeatQuantity = document.getElementById('economySeatQuantity');
+            const economySeatQuantityNumber = parseInt(economySeatQuantity.value);
+            let economySeatNewQuantity =  economySeatQuantityNumber;
+            if(economySeatNewQuantity>0){
+                economySeatNewQuantity = economySeatQuantityNumber - 1;
+            }
+            economySeatQuantity.value = economySeatNewQuantity;
+
+            const newSubTotal = economySeatNewQuantity * 150;
+            document.getElementById('sub-total').innerText = '$' + newSubTotal;
+            inputFirstClassAndEconomy();
+        })
+
+        // =================== For both sub total =======================
+        function inputFirstClassAndEconomy(){
+            const firstClassSeatQuantity = document.getElementById('firstClassSeatQuantity');
+            const firstClassSeatQuantityNumber = parseInt(firstClassSeatQuantity.value);
+
+            const economySeatQuantity = document.getElementById('economySeatQuantity');
+            const economySeatQuantityNumber = parseInt(economySeatQuantity.value);
+
+            const subTotal = document.getElementById('sub-total');
+            const subTotalNumber = parseInt(subTotal.innerText);
+
+            const forBothNewSubTotal = (firstClassSeatQuantityNumber*150)+(economySeatQuantityNumber*100);
+            document.getElementById('sub-total').innerText = forBothNewSubTotal;
+        }
+    </script>
 </body>
 
 </html>

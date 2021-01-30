@@ -101,7 +101,20 @@ nav ul li a:hover, a.active{
     font-size: 30px;
     padding: 2px;
     margin: 10px 5px 0px 0px;
-    word-spacing: 20px;
+    word-spacing: 15px;
+}
+.single-plus-btn{
+    cursor: pointer;
+    background-color: lightcoral;
+    padding: 0 10px;
+    border-radius: 5px;
+    /* margin-right: 10px; */
+}
+.single-minus-btn{
+    cursor: pointer;
+    background-color: lightcoral;
+    padding: 0 13px;
+    border-radius: 5px;
 }
 .booking-form .inputs{
     display: grid;
