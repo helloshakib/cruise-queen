@@ -15,7 +15,7 @@
 
 <body>
     <!--Header and Menu Section-->
-    <header class="container">
+    <header id="header" class="container">
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -27,7 +27,7 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
+    <main class="main-content container" id="main">
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
@@ -102,9 +102,20 @@
                     </div>
                 </div>
             </div>
-            <button id="bookBtn" class="btn-style">Book Now</button>
+            <button id="bookBtn" class="btn-style" type="button">Book Now</button>
         </div>
     </main>
+    <!-- checkout section  -->
+    <div id="checkout">
+        <div class="checkout-service">
+            <h3>You Took First Class Ticket: <span id="checkout-first">00</span></h3>
+            <h3>You Took Economy Ticket: <span id="checkout-economy">00</span></h3>
+            <h3>Your Sub Total: <span id="checkout-subTotal">00</span></h3>
+            <h3>Your Tax: <span id="checkout-tax">00</span></h3>
+            <h3>Your Total: <span id="checkout-grandTotal">00</span></h3>
+            <a href="https://helloshakib.github.io/cruise-queen/" class="btn">Checkout</a>
+        </div>
+    </div>
 
     <!-- ================= JS code start ============== -->
     <script>
@@ -154,6 +165,24 @@
         const classQuantity = parseInt(classInput.value);
         return classQuantity;
       }
+
+      // ============= checkout details ===============
+      document.getElementById('bookBtn').addEventListener('click', function(){
+          const checkout = document.getElementById('checkout');
+          checkout.style.display = "block";
+          
+          const firstClass = document.getElementById('first-quantity').value;
+          const economyClass = document.getElementById('economy-quantity').value;
+          const subTotal = document.getElementById('sub-total').innerText;
+          const tax = document.getElementById('tax').innerText;
+          const grandTotal = document.getElementById('grand-total').innerText;
+
+          document.getElementById('checkout-first').innerText = firstClass;
+          document.getElementById('checkout-economy').innerText = economyClass;
+          document.getElementById('checkout-subTotal').innerText = subTotal;
+          document.getElementById('checkout-tax').innerText = tax;
+          document.getElementById('checkout-grandTotal').innerText = grandTotal;
+      })
     </script>
 </body>
 
