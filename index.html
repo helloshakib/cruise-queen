@@ -58,20 +58,20 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input id="firstClassSeatQuantity" class="inp-style inp-width" value="0">
+                    <input id="first-quantity" class="inp-style inp-width" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p><span id="firstClassSeatIncrease" class="single-plus-btn">+</span> <span id="firstClassSeatDecrease" class="single-minus-btn">-</span></p>
+                    <p><span onclick="handleClassChange('first', true)" class="single-plus-btn">+</span> <span onclick="handleClassChange('first', false)" class="single-minus-btn">-</span></p>
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input id="economySeatQuantity" class="inp-style inp-width" value="0">
+                    <input id="economy-quantity" class="inp-style inp-width" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span id="economySeatIncrease" class="single-plus-btn">+</span> <span id="economySeatDecrease" class="single-minus-btn">-</span> </p>
+                    <p> <span onclick="handleClassChange('economy', true)" class="single-plus-btn">+</span> <span onclick="handleClassChange('economy', false)" class="single-minus-btn">-</span> </p>
                 </div>
             </div>
             <div class="calculations">
@@ -89,7 +89,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p id="tax">$50</p>
+                        <p id="tax">$00</p>
                     </div>
                 </div>
                 <hr>
@@ -98,7 +98,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p id="grand-total">$550</p>
+                        <p id="grand-total">$00</p>
                     </div>
                 </div>
             </div>
@@ -108,76 +108,52 @@
 
     <!-- ================= JS code start ============== -->
     <script>
-        // first class plus button 
-        document.getElementById('firstClassSeatIncrease').addEventListener('click', function(){
-            const firstClassSeatQuantity = document.getElementById('firstClassSeatQuantity');
-            const firstClassSeatQuantityNumber = parseInt(firstClassSeatQuantity.value);
-            const firstClassSeatNewQuantity = firstClassSeatQuantityNumber + 1;
-            firstClassSeatQuantity.value = firstClassSeatNewQuantity;
+    
+    // ==================== Plus Minus Button Handler ===================
+    function handleClassChange(classChange, isIncrease){
+        const classQuantity = getInputValue(classChange);
+        let classNewQuantity = classQuantity;
 
-            const newSubTotal = firstClassSeatNewQuantity * 150;
-            document.getElementById('sub-total').innerText = '$' + newSubTotal;
-            inputFirstClassAndEconomy();
-        })
-
-        // first class minus button
-        document.getElementById('firstClassSeatDecrease').addEventListener('click', function(){
-            const firstClassSeatQuantity = document.getElementById('firstClassSeatQuantity');
-            const firstClassSeatQuantityNumber = parseInt(firstClassSeatQuantity.value);
-            let firstClassSeatNewQuantity =  firstClassSeatQuantityNumber;
-            if(firstClassSeatNewQuantity>0){
-                firstClassSeatNewQuantity = firstClassSeatQuantityNumber - 1;
-            }
-            firstClassSeatQuantity.value = firstClassSeatNewQuantity;
-
-            const newSubTotal = firstClassSeatNewQuantity * 150;
-            document.getElementById('sub-total').innerText = '$' + newSubTotal;
-            inputFirstClassAndEconomy();
-        })
-
-        //============ economy class ===============
-
-        // economy class plus button 
-        document.getElementById('economySeatIncrease').addEventListener('click', function(){
-            const economySeatQuantity = document.getElementById('economySeatQuantity');
-            const economySeatQuantityNumber = parseInt(economySeatQuantity.value);
-            const economySeatNewQuantity = economySeatQuantityNumber + 1;
-            economySeatQuantity.value = economySeatNewQuantity;
-
-            const newSubTotal = economySeatNewQuantity * 150;
-            document.getElementById('sub-total').innerText = '$' + newSubTotal;
-            inputFirstClassAndEconomy();
-        })
-
-        // business class minus button
-        document.getElementById('economySeatDecrease').addEventListener('click', function(){
-            const economySeatQuantity = document.getElementById('economySeatQuantity');
-            const economySeatQuantityNumber = parseInt(economySeatQuantity.value);
-            let economySeatNewQuantity =  economySeatQuantityNumber;
-            if(economySeatNewQuantity>0){
-                economySeatNewQuantity = economySeatQuantityNumber - 1;
-            }
-            economySeatQuantity.value = economySeatNewQuantity;
-
-            const newSubTotal = economySeatNewQuantity * 150;
-            document.getElementById('sub-total').innerText = '$' + newSubTotal;
-            inputFirstClassAndEconomy();
-        })
-
-        // =================== For both sub total =======================
-        function inputFirstClassAndEconomy(){
-            const firstClassSeatQuantity = document.getElementById('firstClassSeatQuantity');
-            const firstClassSeatQuantityNumber = parseInt(firstClassSeatQuantity.value);
-
-            const economySeatQuantity = document.getElementById('economySeatQuantity');
-            const economySeatQuantityNumber = parseInt(economySeatQuantity.value);
-
-            const subTotal = document.getElementById('sub-total');
-            const subTotalNumber = parseInt(subTotal.innerText);
-
-            const forBothNewSubTotal = (firstClassSeatQuantityNumber*150)+(economySeatQuantityNumber*100);
-            document.getElementById('sub-total').innerText = forBothNewSubTotal;
+        if(isIncrease == true){
+            classNewQuantity = classQuantity + 1;
         }
+        if(isIncrease == false && classQuantity > 0){
+            classNewQuantity = classQuantity - 1;
+        }
+        document.getElementById(classChange + '-quantity').value = classNewQuantity;
+        
+        let classSubTotalPrice = 0;
+        if(classChange == 'first'){
+            classSubTotalPrice = classNewQuantity * 150;
+        }
+        if(classChange == 'economy'){
+            classSubTotalPrice = classNewQuantity * 100;
+        }
+        document.getElementById('sub-total').innerText = '$' + classSubTotalPrice;
+        calculateTotal()
+    }
+
+    // ================= Calculate Total Price =======================
+    function calculateTotal(){
+         const firstQuantity = getInputValue('first');
+         const economyQuantity = getInputValue('economy');
+
+         const subTotal = (firstQuantity * 150) + (economyQuantity * 100);
+         document.getElementById('sub-total').innerText = '$' + subTotal;
+
+         const tax = Math.round(subTotal * 0.1);
+         document.getElementById('tax').innerText = '$' + tax;
+
+         const grandTotal = subTotal + tax;
+         document.getElementById('grand-total').innerText = '$' + grandTotal;
+      }
+
+      // ================ First Class and Economy Input Function =============
+      function getInputValue (classChange){
+        const classInput = document.getElementById(classChange + '-quantity');
+        const classQuantity = parseInt(classInput.value);
+        return classQuantity;
+      }
     </script>
 </body>
 
